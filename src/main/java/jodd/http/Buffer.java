@@ -54,10 +54,7 @@ public class Buffer {
 		ensureLast();
 
 		final byte[] bytes = string.getBytes(StandardCharsets.ISO_8859_1);
-		try {
-			last.write(bytes);
-		} catch (final IOException ignore) {
-		}
+		last.write(bytes, 0, bytes.length);
 		size += bytes.length;
 
 		return this;
