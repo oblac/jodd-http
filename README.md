@@ -1,6 +1,6 @@
 # Jodd HTTP
 
-🌟 Simple Java HTTP Client.
+👩🏻‍✈️ Simple Java HTTP Client.
 
 [![Jodd](https://img.shields.io/badge/>-Jodd-orange)](https://github.com/oblac/jodd)
 ![GitHub release](https://img.shields.io/github/release/oblac/jodd-http.svg)
