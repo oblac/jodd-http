@@ -1003,10 +1003,16 @@ public abstract class HttpBase<T> {
 					final String line = reader.readLine();
 
 					final int len;
-					try {
-						len = Integer.parseInt(line, 16);
-					} catch (final NumberFormatException nfex) {
-						throw new HttpException("Invalid chunk length: " + line);
+
+					if (line != null) {
+						try {
+							len = Integer.parseInt(line, 16);
+						} catch (final NumberFormatException nfex) {
+							throw new HttpException("Invalid chunk length: " + line);
+						}
+					}
+					else {
+						len = 0;
 					}
 
 					if (len > 0) {
