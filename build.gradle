@@ -37,8 +37,8 @@ repositories {
 }
 
 group = 'org.jodd'
-version = '6.0.3.' + timestamp() + "-SNAPSHOT"
-//version = '6.0.2'
+//version = '6.0.3-SNAPSHOT'
+version = '6.0.3'
 
 rootProject.description = 'Jodd HTTP Client'
 
