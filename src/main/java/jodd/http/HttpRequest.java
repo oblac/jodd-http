@@ -55,6 +55,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	protected String host = "localhost";
 	protected int port = Defaults.DEFAULT_PORT;
 	protected String method = "GET";
+	protected String fragment = null;
 	protected String path = StringPool.SLASH;
 	protected HttpMultiMap<String> query;
 
@@ -131,6 +132,13 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	public HttpRequest port(final int port) {
 		this.port = port;
 		return this;
+	}
+
+	/**
+	 * Returns HTTP fragment, if specified; otherwise returns <code>null</code>.
+	 */
+	public String fragment() {
+		return fragment;
 	}
 
 	// ---------------------------------------------------------------- set
@@ -329,6 +337,14 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 			path = StringPool.SLASH + path;
 		}
 
+		// remove fragment
+
+		final int fragmentIndex = path.indexOf('#');
+		if (path.indexOf('#') != -1) {
+			this.fragment = path.substring(fragmentIndex + 1);
+			path = path.substring(0, fragmentIndex);
+		}
+
 		final int ndx = path.indexOf('?');
 
 		if (ndx != -1) {
@@ -514,6 +530,11 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 		if (StringUtil.isNotBlank(queryString)) {
 			url.append('?');
 			url.append(queryString);
+		}
+
+		if (fragment != null) {
+			url.append('#');
+			url.append(fragment);
 		}
 
 		return url.toString();
