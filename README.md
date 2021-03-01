@@ -1,7 +1,5 @@
 # Jodd HTTP
 
-👩🏻‍✈️ Simple Java HTTP Client.
-
 [![Jodd](https://img.shields.io/badge/>-Jodd-orange)](https://github.com/oblac/jodd)
 ![GitHub release](https://img.shields.io/github/release/oblac/jodd-http.svg)
 ![Maven Central](https://img.shields.io/maven-central/v/org.jodd/jodd-http)
@@ -12,3 +10,8 @@
 [![Stack Overflow](https://img.shields.io/badge/stack%20overflow-jodd-4183C4.svg)](https://stackoverflow.com/questions/tagged/jodd)
 [![BSD License](https://img.shields.io/badge/license-BSD--2--Clause-blue.svg)](https://github.com/oblac/jodd-http/blob/master/LICENSE)
 
+🌟 Simple Java HTTP Client.
+
+🏡 Website: [http.jodd.org](https://http.jodd.org)
+
+❤️ For developers, by developer.
