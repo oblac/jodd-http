@@ -37,6 +37,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,6 +52,11 @@ public class HTTPProxySocketFactory extends SocketFactory {
 	public HTTPProxySocketFactory(final ProxyInfo proxy, final int connectionTimeout) {
 		this.proxy = proxy;
 		this.connectionTimeout = connectionTimeout;
+	}
+
+	@Override
+	public Socket createSocket() {
+		return new Socket();
 	}
 
 	@Override
@@ -80,12 +86,12 @@ public class HTTPProxySocketFactory extends SocketFactory {
 
 		try {
 			socket = Sockets.connect(proxyAddress, proxyPort, connectionTimeout);
-			String hostport = host + ":" + port;
+			final String hostport = host + ":" + port;
 			String proxyLine = "";
-			String username = proxy.getProxyUsername();
+			final String username = proxy.getProxyUsername();
 
 			if (username != null) {
-				String password = proxy.getProxyPassword();
+				final String password = proxy.getProxyPassword();
 				proxyLine =
 						"Proxy-Authorization: Basic " +
 						Base64.encodeToString((username + ":" + password)) + "\r\n";
@@ -96,20 +102,20 @@ public class HTTPProxySocketFactory extends SocketFactory {
 					 "Host: " + hostport + "\r\n" +
                      proxyLine +
                      "\r\n"
-                    ).getBytes("UTF-8")
+                    ).getBytes(StandardCharsets.UTF_8)
             );
 
-			InputStream in = socket.getInputStream();
-			StringBuilder recv = new StringBuilder(100);
+			final InputStream in = socket.getInputStream();
+			final StringBuilder recv = new StringBuilder(100);
 			int nlchars = 0;
 
             do {
-                int i = in.read();
+                final int i = in.read();
                 if (i == -1) {
                     throw new HttpException(ProxyInfo.ProxyType.HTTP, "Invalid response");
                 }
 
-                char c = (char) i;
+                final char c = (char) i;
                 recv.append(c);
                 if (recv.length() > 1024) {
                     throw new HttpException(ProxyInfo.ProxyType.HTTP, "Received header longer then 1024 chars");
@@ -123,31 +129,31 @@ public class HTTPProxySocketFactory extends SocketFactory {
                 }
             } while (nlchars != 4);
 
-			String recvStr = recv.toString();
+			final String recvStr = recv.toString();
 
-			BufferedReader br = new BufferedReader(new StringReader(recvStr));
-			String response = br.readLine();
+			final BufferedReader br = new BufferedReader(new StringReader(recvStr));
+			final String response = br.readLine();
 
 			if (response == null) {
 				throw new HttpException(ProxyInfo.ProxyType.HTTP, "Empty proxy response");
 			}
 
-			Matcher m = RESPONSE_PATTERN.matcher(response);
+			final Matcher m = RESPONSE_PATTERN.matcher(response);
 			if (!m.matches()) {
 				throw new HttpException(ProxyInfo.ProxyType.HTTP, "Unexpected proxy response");
 			}
 
-			int code = Integer.parseInt(m.group(1));
+			final int code = Integer.parseInt(m.group(1));
 
 			if (code != HttpURLConnection.HTTP_OK) {
 				throw new HttpException(ProxyInfo.ProxyType.HTTP, "Invalid return status code: " + code);
 			}
 
 			return socket;
-		} catch (RuntimeException rtex) {
+		} catch (final RuntimeException rtex) {
 			closeSocket(socket);
 			throw rtex;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			closeSocket(socket);
 			throw new HttpException(ProxyInfo.ProxyType.HTTP, ex.toString(), ex);
 		}
@@ -162,7 +168,7 @@ public class HTTPProxySocketFactory extends SocketFactory {
 			if (socket != null) {
 				socket.close();
 			}
-		} catch (Exception ignore) {
+		} catch (final Exception ignore) {
 		}
 	}
 

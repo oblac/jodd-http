@@ -52,6 +52,11 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 	}
 
 	@Override
+	public Socket createSocket() {
+		return new Socket();
+	}
+
+	@Override
 	public Socket createSocket(final String host, final int port) {
 		return createSocks5ProxySocket(host, port);
 	}
@@ -74,10 +79,10 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 	private Socket createSocks5ProxySocket(final String host, final int port) {
 		Socket socket = null;
 
-		String proxyAddress = proxy.getProxyAddress();
-		int proxyPort = proxy.getProxyPort();
-		String user = proxy.getProxyUsername();
-		String passwd = proxy.getProxyPassword();
+		final String proxyAddress = proxy.getProxyAddress();
+		final int proxyPort = proxy.getProxyPort();
+		final String user = proxy.getProxyUsername();
+		final String passwd = proxy.getProxyPassword();
 
 		try {
 			socket = Sockets.connect(proxyAddress, proxyPort, connectionTimeout);
@@ -87,7 +92,7 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 
 			socket.setTcpNoDelay(true);
 
-			byte[] buf = new byte[1024];
+			final byte[] buf = new byte[1024];
 			int index = 0;
 
 			// 1) VERSION IDENT/METHOD SELECTION
@@ -141,7 +146,7 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 			if (!check) {
 				try {
 					socket.close();
-				} catch (Exception ignore) {
+				} catch (final Exception ignore) {
 				}
 				throw new HttpException(ProxyInfo.ProxyType.SOCKS5, "check failed");
 			}
@@ -153,8 +158,8 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 			buf[index++] = 1; // CONNECT
 			buf[index++] = 0;
 
-			byte[] hostb = host.getBytes();
-			int len = hostb.length;
+			final byte[] hostb = host.getBytes();
+			final int len = hostb.length;
 			buf[index++] = 3; // DOMAINNAME
 			buf[index++] = (byte) (len);
 			System.arraycopy(hostb, 0, buf, index, len);
@@ -173,7 +178,7 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 			if (buf[1] != 0) {
 				try {
 					socket.close();
-				} catch (Exception ignore) {
+				} catch (final Exception ignore) {
 				}
 				throw new HttpException(ProxyInfo.ProxyType.SOCKS5, "proxy returned " + buf[1]);
 			}
@@ -196,10 +201,10 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 				default:
 			}
 			return socket;
-		} catch (RuntimeException rttex) {
+		} catch (final RuntimeException rttex) {
 			closeSocket(socket);
 			throw rttex;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			closeSocket(socket);
 			throw new HttpException(ProxyInfo.ProxyType.SOCKS5, ex.toString(), ex);
 		}
@@ -208,7 +213,7 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 	private void readBytes(final InputStream in, final byte[] buf, final int len) throws IOException {
 		int s = 0;
 		while (s < len) {
-			int i = in.read(buf, s, len - s);
+			final int i = in.read(buf, s, len - s);
 			if (i <= 0) {
 				throw new HttpException(ProxyInfo.ProxyType.SOCKS5, "stream is closed");
 			}
@@ -224,7 +229,7 @@ public class Socks5ProxySocketFactory extends SocketFactory {
 			if (socket != null) {
 				socket.close();
 			}
-		} catch (Exception ignore) {
+		} catch (final Exception ignore) {
 		}
 	}
 

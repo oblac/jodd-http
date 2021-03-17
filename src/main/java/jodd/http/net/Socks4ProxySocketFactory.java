@@ -51,6 +51,11 @@ public class Socks4ProxySocketFactory extends SocketFactory {
 	}
 
 	@Override
+	public Socket createSocket() {
+		return new Socket();
+	}
+
+	@Override
 	public Socket createSocket(final String host, final int port) {
 		return createSocks4ProxySocket(host, port);
 	}
@@ -87,7 +92,7 @@ public class Socks4ProxySocketFactory extends SocketFactory {
 
 			socket.setTcpNoDelay(true);
 
-			byte[] buf = new byte[1024];
+			final byte[] buf = new byte[1024];
 
 			// 1) CONNECT
 
@@ -98,9 +103,9 @@ public class Socks4ProxySocketFactory extends SocketFactory {
 			buf[index++] = (byte) (port >>> 8);
 			buf[index++] = (byte) (port & 0xff);
 
-			InetAddress addr = InetAddress.getByName(host);
-			byte[] byteAddress = addr.getAddress();
-			for (byte byteAddres : byteAddress) {
+			final InetAddress addr = InetAddress.getByName(host);
+			final byte[] byteAddress = addr.getAddress();
+			for (final byte byteAddres : byteAddress) {
 				buf[index++] = byteAddres;
 			}
 
@@ -113,10 +118,10 @@ public class Socks4ProxySocketFactory extends SocketFactory {
 
 			// 2) RESPONSE
 
-			int len = 6;
+			final int len = 6;
 			int s = 0;
 			while (s < len) {
-				int i = in.read(buf, s, len - s);
+				final int i = in.read(buf, s, len - s);
 				if (i <= 0) {
 					throw new HttpException(ProxyInfo.ProxyType.SOCKS4, "stream is closed");
 				}
@@ -128,19 +133,19 @@ public class Socks4ProxySocketFactory extends SocketFactory {
 			if (buf[1] != 90) {
 				try {
 					socket.close();
-				} catch (Exception ignore) {
+				} catch (final Exception ignore) {
 				}
 				throw new HttpException(ProxyInfo.ProxyType.SOCKS4, "proxy returned CD " + buf[1]);
 			}
 
-			byte[] temp = new byte[2];
+			final byte[] temp = new byte[2];
 			in.read(temp, 0, 2);
 
 			return socket;
-		} catch (RuntimeException rtex) {
+		} catch (final RuntimeException rtex) {
 			closeSocket(socket);
 			throw rtex;
-		} catch (Exception ex) {
+		} catch (final Exception ex) {
 			closeSocket(socket);
 			throw new HttpException(ProxyInfo.ProxyType.SOCKS4, ex.toString(), ex);
 		}
@@ -154,7 +159,7 @@ public class Socks4ProxySocketFactory extends SocketFactory {
 			if (socket != null) {
 				socket.close();
 			}
-		} catch (Exception ignore) {
+		} catch (final Exception ignore) {
 		}
 	}
 }

@@ -134,7 +134,7 @@ class HttpConnectionTest {
 				.monitor(new HttpProgressListener() {
 					@Override
 					public void transferred(final int len) {
-						sb.append(":" + len);
+						sb.append(":").append(len);
 					}
 				})
 				.send();
