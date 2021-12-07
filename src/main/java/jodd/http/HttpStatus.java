@@ -213,6 +213,11 @@ public class HttpStatus {
 	 */
 	public static final int HTTP_UNSUPPORTED_TYPE = 415;
 
+	/**
+	 * HTTP Status-Code 422: Unprocessable Entity.
+	 */
+	public static final int HTTP_UNPROCESSABLE_ENTITY = 422;
+
 	// ---------------------------------------------------------------- 5xx
 
 	/**
