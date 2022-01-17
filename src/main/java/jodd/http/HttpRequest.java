@@ -885,7 +885,11 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 
 			if (HttpStatus.isRedirect(statusCode)) {
 				_reset();
-				set(httpResponse.location());
+				final String location = httpResponse.location();
+				if (location == null) {
+					return httpResponse;
+				}
+				set(location);
 				continue;
 			}
 
