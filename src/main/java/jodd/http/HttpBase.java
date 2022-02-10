@@ -615,7 +615,7 @@ public abstract class HttpBase<T> {
 	}
 
 	/**
-	 * Returns <b>raw</b> body bytes. Returns <code>null</code> if body is not specified.
+	 * Returns <b>raw</b> body bytes. Returns empty string if body is not specified.
 	 */
 	public byte[] bodyBytes() {
 		if (body == null) {
@@ -990,6 +990,8 @@ public abstract class HttpBase<T> {
 				}
 
 				bodyString = fastCharArrayWriter.toString();
+			} else {
+				bodyString = "";
 			}
 		}
 
