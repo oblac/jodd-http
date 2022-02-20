@@ -615,11 +615,11 @@ public abstract class HttpBase<T> {
 	}
 
 	/**
-	 * Returns <b>raw</b> body bytes. Returns empty string if body is not specified.
+	 * Returns <b>raw</b> body bytes. Returns empty array if body is not specified.
 	 */
 	public byte[] bodyBytes() {
 		if (body == null) {
-			return null;
+			return new byte[0];
 		}
 		return body.getBytes(StandardCharsets.ISO_8859_1);
 	}
