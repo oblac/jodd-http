@@ -31,6 +31,8 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.mockserver.integration.ClientAndProxy;
 import org.mockserver.integration.ClientAndServer;
 import org.mockserver.model.Header;
@@ -70,6 +72,7 @@ class ProxyTest {
 	}
 
 	@Test
+	@EnabledOnOs({OS.MAC})
 	void testDirectHttps() {
 		final HttpResponse response = HttpRequest.get("https://localhost:1080/get_books").trustAllCerts(true).send();
 		assertEquals(200, response.statusCode());
@@ -104,6 +107,7 @@ class ProxyTest {
 	}
 
 	@Test
+	@EnabledOnOs({OS.MAC})
 	void testSocks5ProxyWithHttps() {
 		final SocketHttpConnectionProvider s = new SocketHttpConnectionProvider();
 		s.useProxy(ProxyInfo.socks5Proxy("localhost", 1090, null, null));
