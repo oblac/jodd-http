@@ -355,7 +355,7 @@ class HttpRequestTest {
 		request.header("key-test2", "value3");
 		assertTrue(request.toString(false).contains("Key-Test2: value2, value3"), "Header key should have been modified");
 		assertEquals(2, request.headers("KEY-TEST2").size());
-		assertEquals(2 + 2, request.headerNames().size());		// 2 default and 2 added
+		assertEquals(1 + 2, request.headerNames().size());		// 2 default and 2 added
 
 		request.headerRemove("key-test2");
 		assertFalse(request.headers.contains("key-test2"));
@@ -375,7 +375,7 @@ class HttpRequestTest {
 		request.header("key-test1", "value4");
 		assertTrue(request.toString(false).contains("key-test1: VALUE1, value4"), "Header key should not have been modified");
 		assertEquals(2, request.headers("KEY-TEST1").size());
-		assertEquals(2 + 2, request.headerNames().size());		// 2 default and 2 added
+		assertEquals(1 + 2, request.headerNames().size());		// 2 default and 2 added
 
 		request.headerRemove("key-test1");
 		assertFalse(request.headers.contains("key-test1"));

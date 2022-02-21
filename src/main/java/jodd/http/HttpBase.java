@@ -82,10 +82,6 @@ public abstract class HttpBase<T> {
 		 */
 		public static String bodyEncoding = "UTF-8";
 		/**
-		 * Default user agent value.
-		 */
-		public static String userAgent = "Jodd HTTP";
-		/**
 		 * Flag that controls if headers should be rewritten and capitalized in PascalCase.
 		 * When disabled, header keys are used as they are passed.
 		 * When flag is enabled, header keys will be capitalized.
@@ -105,6 +101,7 @@ public abstract class HttpBase<T> {
 	public static final String HEADER_CONNECTION = "Connection";
 	public static final String HEADER_KEEP_ALIVE = "Keep-Alive";
 	public static final String HEADER_CLOSE = "Close";
+	public static final String HEADER_USER_AGENT = "User-Agent";
 	public static final String HTTP_1_0 = "HTTP/1.0";
 	public static final String HTTP_1_1 = "HTTP/1.1";
 

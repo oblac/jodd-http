@@ -66,8 +66,10 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	}
 
 	/**
-	 * Prepares request on creation. By default, it just
-	 * adds "Connection: Close" header.
+	 * Prepares request on creation. Does the following:
+	 * <ul>
+	 *     <li>adds "Connection: Close" header.</li>
+	 * </ul>
 	 */
 	protected void initRequest() {
 		connectionKeepAlive(false);
@@ -964,9 +966,9 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 
 		// user-agent
 
-		if (header("User-Agent") == null) {
-			header("User-Agent", Defaults.userAgent);
-		}
+//		if (header("User-Agent") == null) {
+//			header("User-Agent", Defaults.userAgent);
+//		}
 
 		// POST method requires Content-Type to be set
 

@@ -145,7 +145,7 @@ class HttpConnectionTest {
 		echoTestServer.stop();
 		file.delete();
 
-		assertEquals(":0:512:1024:148", StringUtil.substring(sb.toString(), 0, -1));
+		assertEquals(":0:512:1024:146", StringUtil.substring(sb.toString(), 0, -1));
 	}
 
 }
