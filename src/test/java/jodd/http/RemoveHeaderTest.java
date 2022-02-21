@@ -26,6 +26,8 @@ class RemoveHeaderTest {
 
 	@Test
 	void testRemoveHeaderUserAgent() throws IOException {
+		HttpBase.Defaults.headers.remove("User-Agent");
+
 		HttpRequest request = HttpRequest
 				.get("https://example.com")
 				.header("x-dummy-header", "remove me");
@@ -41,5 +43,7 @@ class RemoveHeaderTest {
 		String out = baos.toString();
 
 		assertFalse(out.contains("User-Agent"));
+
+		HttpBase.Defaults.headers.addHeader("User-Agent", "Jodd HTTP");
 	}
 }

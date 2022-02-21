@@ -82,6 +82,12 @@ public abstract class HttpBase<T> {
 		 */
 		public static String bodyEncoding = "UTF-8";
 		/**
+		 * Default headers.
+		 */
+		public static HeadersMultiMap headers = new HeadersMultiMap() {{
+			addHeader(HEADER_USER_AGENT, "Jodd HTTP");
+		}};
+		/**
 		 * Flag that controls if headers should be rewritten and capitalized in PascalCase.
 		 * When disabled, header keys are used as they are passed.
 		 * When flag is enabled, header keys will be capitalized.
@@ -176,6 +182,14 @@ public abstract class HttpBase<T> {
 	 */
 	public void headerRemove(final String name) {
 		headers.remove(name.trim());
+	}
+
+	/**
+	 * Clears all headers.
+	 */
+	public T headersClear() {
+		this.headers.clear();
+		return _this();
 	}
 
 	/**

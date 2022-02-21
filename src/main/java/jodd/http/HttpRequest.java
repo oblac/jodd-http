@@ -69,10 +69,16 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 	 * Prepares request on creation. Does the following:
 	 * <ul>
 	 *     <li>adds "Connection: Close" header.</li>
+	 *     <li>adds default headers</li>
 	 * </ul>
 	 */
 	protected void initRequest() {
 		connectionKeepAlive(false);
+		if (Defaults.headers.size() > 0) {
+			for (Map.Entry<String, String> entry : Defaults.headers) {
+				this.headers.add(entry.getKey(), entry.getValue());
+			}
+		}
 	}
 
 	// ---------------------------------------------------------------- properties
