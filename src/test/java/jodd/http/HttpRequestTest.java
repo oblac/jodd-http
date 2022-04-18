@@ -326,7 +326,7 @@ class HttpRequestTest {
 	void test394() {
 		HttpRequest request = HttpRequest.get("https://jodd.org/random link");
 		assertEquals("GET", request.method());
-		assertEquals("https://jodd.org/random link", request.url());
+		assertEquals("https://jodd.org/random%20link", request.url());
 
 		request = HttpRequest.get("https://jodd.org/random link?q=1");
 		assertEquals("1", request.query().get("q"));
