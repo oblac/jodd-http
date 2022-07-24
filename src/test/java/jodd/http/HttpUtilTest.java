@@ -25,12 +25,15 @@
 
 package jodd.http;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class HttpUtilTest {
 
@@ -157,4 +160,15 @@ class HttpUtilTest {
 		assertEquals("d", map.get("c"));
 	}
 
+	@Test
+	void testAbsoluteUrls() {
+		assertTrue(HttpUtil.isAbsoluteUrl("http://jodd.org"));
+		assertTrue(HttpUtil.isAbsoluteUrl("https://jodd.org"));
+
+		assertFalse(HttpUtil.isAbsoluteUrl("just/a/path"));
+		assertFalse(HttpUtil.isAbsoluteUrl("/just/a/path"));
+		assertFalse(HttpUtil.isAbsoluteUrl("/ju:st/a/path"));
+
+		assertTrue(HttpUtil.isAbsoluteUrl("ju:st/a/path"));
+	}
 }

@@ -249,4 +249,40 @@ public class HttpUtil {
 		}
 	}
 
+	// ---------------------------------------------------------------- url
+
+	/**
+	 * Determines if path is relative or absolute.
+	 *
+	 * https://datatracker.ietf.org/doc/html/rfc3986#section-4.2
+	 *
+	 * A relative reference that begins with a single slash character is
+	 * termed an absolute-path reference.
+	 *
+	 * A relative reference that does
+	 * not begin with a slash character is termed a relative-path reference.
+	 *
+	 * A path segment that contains a colon character (e.g., "this:that")
+	 * cannot be used as the first segment of a relative-path reference, as
+	 * it would be mistaken for a scheme name.
+	 */
+	public static boolean isAbsoluteUrl(String url) {
+		if (url.startsWith(StringPool.SLASH)) {
+			// A relative reference that begins with a single slash character is
+			// termed an absolute-path reference.
+			return false;
+		}
+		int slashIndex = url.indexOf('/');
+		int colonIndex = url.indexOf(':');
+		if (colonIndex == -1) {
+			// no colon at all - it is a relative url
+			return false;
+		}
+		// colon exist - is it after the slash?
+		if (colonIndex > slashIndex) {
+			return false;
+		}
+		return true;
+	}
+
 }

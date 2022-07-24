@@ -94,7 +94,9 @@ public class HttpResponse extends HttpBase<HttpResponse> {
 			return null;
 		}
 
-		if (location.startsWith(StringPool.SLASH)) {
+		// see: new URL(new URL(httpRequest.url()), location)
+
+		if (!HttpUtil.isAbsoluteUrl(location)) {
 			location = getHttpRequest().hostUrl() + location;
 		}
 
