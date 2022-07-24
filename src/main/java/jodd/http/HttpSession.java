@@ -32,9 +32,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Emulates HTTP Browser and persist cookies between requests.
+ * Emulates HTTP session and persist cookies between requests.
  */
-public class HttpBrowser {
+public class HttpSession {
 
 	protected HttpConnectionProvider httpConnectionProvider;
 	protected HttpRequest httpRequest;
@@ -45,7 +45,7 @@ public class HttpBrowser {
 	protected long elapsedTime;
 	protected boolean catchTransportExceptions = true;
 
-	public HttpBrowser() {
+	public HttpSession() {
 		httpConnectionProvider = HttpConnectionProvider.get();
 	}
 
@@ -59,7 +59,7 @@ public class HttpBrowser {
 	/**
 	 * Defines that persistent HTTP connection should be used.
 	 */
-	public HttpBrowser setKeepAlive(final boolean keepAlive) {
+	public HttpSession setKeepAlive(final boolean keepAlive) {
 		this.keepAlive = keepAlive;
 		return this;
 	}
@@ -67,24 +67,24 @@ public class HttpBrowser {
 	/**
 	 * Defines if transport exceptions should be thrown.
 	 */
-	public HttpBrowser setCatchTransportExceptions(final boolean catchTransportExceptions) {
+	public HttpSession setCatchTransportExceptions(final boolean catchTransportExceptions) {
 		this.catchTransportExceptions = catchTransportExceptions;
 		return this;
 	}
 
 	/**
-	 * Defines proxy for a browser.
+	 * Defines proxy for a session
 	 */
-	public HttpBrowser setProxyInfo(final ProxyInfo proxyInfo) {
+	public HttpSession setProxyInfo(final ProxyInfo proxyInfo) {
 		httpConnectionProvider.useProxy(proxyInfo);
 		return this;
 	}
 
 	/**
-	 * Defines {@link jodd.http.HttpConnectionProvider} for this browser session.
+	 * Defines {@link jodd.http.HttpConnectionProvider} for this session.
 	 * Resets the previous proxy definition, if set.
 	 */
-	public HttpBrowser setHttpConnectionProvider(final HttpConnectionProvider httpConnectionProvider) {
+	public HttpSession setHttpConnectionProvider(final HttpConnectionProvider httpConnectionProvider) {
 		this.httpConnectionProvider = httpConnectionProvider;
 		return this;
 	}
@@ -92,7 +92,7 @@ public class HttpBrowser {
 	/**
 	 * Adds default header to all requests.
 	 */
-	public HttpBrowser setDefaultHeader(final String name, final String value) {
+	public HttpSession setDefaultHeader(final String name, final String value) {
 		defaultHeaders.addHeader(name, value);
 		return this;
 	}
@@ -123,8 +123,8 @@ public class HttpBrowser {
 
 
 	/**
-	 * Sends new request as a browser. Before sending,
-	 * all browser cookies are added to the request.
+	 * Sends new request using a session. Before sending,
+	 * all session cookies are added to the request.
 	 * After sending, the cookies are read from the response.
 	 * Moreover, status codes 301 and 302 are automatically
 	 * handled. Returns very last response.
@@ -261,7 +261,7 @@ public class HttpBrowser {
 	// ---------------------------------------------------------------- close
 
 	/**
-	 * Closes browser explicitly, needed when keep-alive connection is used.
+	 * Closes session explicitly, needed when keep-alive connection is used.
 	 */
 	public void close() {
 		if (httpResponse != null) {

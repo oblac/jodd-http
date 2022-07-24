@@ -158,19 +158,19 @@ class KeepAliveTest {
 	}
 
 	@Test
-	void testKeepAliveBrowser() {
-		HttpBrowser browser = new HttpBrowser();
-		browser.setKeepAlive(true);
-		browser.setHttpConnectionProvider(httpConnectionProvider);
+	void testKeepAliveSession() {
+		HttpSession session = new HttpSession();
+		session.setKeepAlive(true);
+		session.setHttpConnectionProvider(httpConnectionProvider);
 
 		currentResponse = 0;
 
 		// ->
 		HttpRequest request = HttpRequest.get("http://jodd.org");
-		browser.sendRequest(request);
+		session.sendRequest(request);
 
 		// <-
-		HttpResponse response = browser.getHttpResponse();
+		HttpResponse response = session.getHttpResponse();
 		HttpConnection connection = request.connection();
 
 		assertTrue(request.isConnectionPersistent());
@@ -181,7 +181,7 @@ class KeepAliveTest {
 
 		// ->
 		request = HttpRequest.get("http://jodd.org");
-		response = browser.sendRequest(request);
+		response = session.sendRequest(request);
 
 		// <-
 		assertSame(connection, request.connection());
@@ -193,7 +193,7 @@ class KeepAliveTest {
 
 		// -> LAST request
 		request = HttpRequest.get("http://jodd.org");
-		response = browser.sendRequest(request);
+		response = session.sendRequest(request);
 
 		// <-
 		assertNull(request.connection()); // connection is closed
@@ -205,7 +205,7 @@ class KeepAliveTest {
 		// -> AFTER THE LAST, STARTS EVERYTHING AGAIN
 
 		request = HttpRequest.get("http://jodd.org");
-		response = browser.sendRequest(request);
+		response = session.sendRequest(request);
 
 		// <-
 		assertTrue(request.isConnectionPersistent());
@@ -214,7 +214,7 @@ class KeepAliveTest {
 
 		// CLOSE
 
-		browser.close();
+		session.close();
 		assertNull(request.connection());	// connection closed
 	}
 }

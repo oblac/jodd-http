@@ -55,12 +55,12 @@ class HttpRedirectTest {
 
 		assertEquals(302, httpResponse.statusCode);
 
-		final HttpBrowser httpBrowser = new HttpBrowser();
+		final HttpSession httpSession = new HttpSession();
 
-		httpBrowser.sendRequest(
+		httpSession.sendRequest(
 				HttpRequest.get("localhost:8173/redirect"));
 
-		httpResponse = httpBrowser.getHttpResponse();
+		httpResponse = httpSession.getHttpResponse();
 
 		assertNotNull(httpResponse);
 		assertEquals("target!", httpResponse.bodyRaw());

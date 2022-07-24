@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-class HttpBrowserTest {
+class HttpSessionTest {
 	
 	static TestServer testServer;
 
@@ -48,16 +48,16 @@ class HttpBrowserTest {
 	}
 	
 	@Test
-	void testBrowser() {
-		final HttpBrowser httpBrowser = new HttpBrowser();
+	void testSessions() {
+		final HttpSession httpSession = new HttpSession();
 
-		httpBrowser.sendRequest(
+		httpSession.sendRequest(
 			HttpRequest
 				.get("localhost:8173/echo?id=17")
 				.cookies(new Cookie("waffle", "jam"))
 				.bodyText("hello"));
 
-		final HttpResponse httpResponse = httpBrowser.getHttpResponse();
+		final HttpResponse httpResponse = httpSession.getHttpResponse();
 
 		assertNotNull(httpResponse);
 		assertEquals("hello", httpResponse.bodyRaw());
@@ -70,12 +70,12 @@ class HttpBrowserTest {
 	}
 
 	@Test
-	void testBrowserRedirect() {
-		final HttpBrowser httpBrowser = new HttpBrowser();
+	void testSessionRedirect() {
+		final HttpSession httpSession = new HttpSession();
 
-		httpBrowser.sendRequest(HttpRequest.get("localhost:8173/redirect"));
+		httpSession.sendRequest(HttpRequest.get("localhost:8173/redirect"));
 
-		final HttpResponse httpResponse = httpBrowser.getHttpResponse();
+		final HttpResponse httpResponse = httpSession.getHttpResponse();
 
 		assertEquals(200, httpResponse.statusCode());
 		assertEquals("target!", httpResponse.bodyRaw());

@@ -29,17 +29,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class HttpBrowserOfflineTest {
+class HttpSessionOfflineTest {
 
 	@Test
 	void testDefaultParameters() {
-		HttpBrowser httpBrowser = new HttpBrowser();
-		httpBrowser.setDefaultHeader("aaa", "123");
+		HttpSession httpSession = new HttpSession();
+		httpSession.setDefaultHeader("aaa", "123");
 
 		HttpRequest request = HttpRequest.get("foo.com");
 		request.header("bbb", "987");
 
-		httpBrowser.addDefaultHeaders(request);
+		httpSession.addDefaultHeaders(request);
 
 		assertEquals(4, request.headerNames().size());
 		assertEquals("123", request.header("aaa"));
@@ -48,13 +48,13 @@ class HttpBrowserOfflineTest {
 
 	@Test
 	void testDefaultParametersOverwrite() {
-		HttpBrowser httpBrowser = new HttpBrowser();
-		httpBrowser.setDefaultHeader("aaa", "123");
+		HttpSession httpSession = new HttpSession();
+		httpSession.setDefaultHeader("aaa", "123");
 
 		HttpRequest request = HttpRequest.get("foo.com");
 		request.header("aaa", "987");
 
-		httpBrowser.addDefaultHeaders(request);
+		httpSession.addDefaultHeaders(request);
 
 		assertEquals(3, request.headerNames().size());
 		assertEquals("987", request.header("aaa"));

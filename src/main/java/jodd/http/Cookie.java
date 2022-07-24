@@ -149,7 +149,7 @@ public class Cookie {
 
 	/**
 	 * Specifies a comment that describes a cookie's purpose.
-	 * The comment is useful if the browser presents the cookie
+	 * The comment is useful if the session presents the cookie
 	 * to the user.
 	 */
 	public Cookie setComment(final String purpose) {
@@ -185,7 +185,7 @@ public class Cookie {
 	/**
 	 * Returns the maximum age of the cookie, specified in seconds,
 	 * By default, <code>-1</code> indicating the cookie will persist
-	 * until browser shutdown.
+	 * until session shutdown.
 	 */
 
 	public Integer getMaxAge() {
@@ -202,7 +202,7 @@ public class Cookie {
 	 * <p>
 	 * A negative value means
 	 * that the cookie is not stored persistently and will be deleted
-	 * when the Web browser exits. A zero value causes the cookie
+	 * when the Web session exits. A zero value causes the cookie
 	 * to be deleted.
 	 */
 
@@ -213,7 +213,7 @@ public class Cookie {
 
 	/**
 	 * Returns the path on the server
-	 * to which the browser returns this cookie. The
+	 * to which the session returns this cookie. The
 	 * cookie is visible to all subpaths on the server.
 	 */
 	public String getPath() {
@@ -239,16 +239,16 @@ public class Cookie {
 	}
 
 	/**
-	 * Returns <code>true</code> if the browser is sending cookies
+	 * Returns <code>true</code> if the session is sending cookies
 	 * only over a secure protocol, or <code>false</code> if the
-	 * browser can send cookies using any protocol.
+	 * session can send cookies using any protocol.
 	 */
 	public boolean isSecure() {
 		return secure;
 	}
 
 	/**
-	 * Indicates to the browser whether the cookie should only be sent
+	 * Indicates to the session whether the cookie should only be sent
 	 * using a secure protocol, such as HTTPS or SSL.
 	 */
 	public Cookie setSecure(final boolean flag) {
@@ -285,7 +285,7 @@ public class Cookie {
 	 * with. Version 1 complies with RFC 2109,
 	 * and version 0 complies with the original
 	 * cookie specification drafted by Netscape. Cookies provided
-	 * by a browser use and identify the browser's cookie version.
+	 * by a session use and identify the session's cookie version.
 	 */
 	public Integer getVersion() {
 		return version;
