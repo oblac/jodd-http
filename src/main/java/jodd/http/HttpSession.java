@@ -45,6 +45,8 @@ public class HttpSession {
 	protected long elapsedTime;
 	protected boolean catchTransportExceptions = true;
 
+	protected boolean handleRedirects = true;
+
 	public HttpSession() {
 		httpConnectionProvider = HttpConnectionProvider.get();
 	}
@@ -94,6 +96,14 @@ public class HttpSession {
 	 */
 	public HttpSession setDefaultHeader(final String name, final String value) {
 		defaultHeaders.addHeader(name, value);
+		return this;
+	}
+
+	/**
+	 * Handles redirects by default.
+	 */
+	public HttpSession setHandleRedirects(final boolean handleRedirects) {
+		this.handleRedirects = handleRedirects;
 		return this;
 	}
 
@@ -170,6 +180,10 @@ public class HttpSession {
 
 			readCookies(httpResponse);
 
+			if (!handleRedirects) {
+				break;
+			}
+
 			final int statusCode = httpResponse.statusCode();
 
 			// 301: moved permanently
@@ -220,17 +234,17 @@ public class HttpSession {
 	}
 
 	/**
-	 * Opens connection and sends a response.
+	 * Opens connection and sends a previous response.
 	 */
-	protected HttpResponse _sendRequest(final HttpRequest httpRequest, final HttpResponse previouseResponse) {
+	protected HttpResponse _sendRequest(final HttpRequest httpRequest, final HttpResponse previousResponse) {
 		if (!keepAlive) {
 			httpRequest.open(httpConnectionProvider);
 		} else {
 			// keeping alive
-			if (previouseResponse == null) {
+			if (previousResponse == null) {
 				httpRequest.open(httpConnectionProvider).connectionKeepAlive(true);
 			} else {
-				httpRequest.keepAlive(previouseResponse, true);
+				httpRequest.keepAlive(previousResponse, true);
 			}
 		}
 
