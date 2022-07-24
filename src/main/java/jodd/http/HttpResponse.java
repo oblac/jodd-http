@@ -25,6 +25,7 @@
 
 package jodd.http;
 
+import jodd.io.FileNameUtil;
 import jodd.io.IOUtil;
 import jodd.util.StringPool;
 
@@ -34,6 +35,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -94,10 +97,12 @@ public class HttpResponse extends HttpBase<HttpResponse> {
 			return null;
 		}
 
-		// see: new URL(new URL(httpRequest.url()), location)
-
 		if (!HttpUtil.isAbsoluteUrl(location)) {
-			location = getHttpRequest().hostUrl() + location;
+			try {
+				location = new URL(new URL(httpRequest.url()), location).toString();
+			} catch (MalformedURLException e) {
+				throw new HttpException("Invalid location: " + location, e);
+			}
 		}
 
 		return location;

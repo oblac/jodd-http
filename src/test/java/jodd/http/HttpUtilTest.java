@@ -28,6 +28,8 @@ package jodd.http;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -163,6 +165,7 @@ class HttpUtilTest {
 	@Test
 	void testAbsoluteUrls() {
 		assertTrue(HttpUtil.isAbsoluteUrl("http://jodd.org"));
+
 		assertTrue(HttpUtil.isAbsoluteUrl("https://jodd.org"));
 
 		assertFalse(HttpUtil.isAbsoluteUrl("just/a/path"));
@@ -171,4 +174,29 @@ class HttpUtilTest {
 
 		assertTrue(HttpUtil.isAbsoluteUrl("ju:st/a/path"));
 	}
+
+	@Test
+	void testAbsoluteUrls2() throws MalformedURLException {
+		{
+			HttpRequest request = HttpRequest.get("https://jodd.org/hello/world");
+			String location = "https://jodd.org";
+
+			assertEquals("https://jodd.org", locationOf(request, location));
+		}
+		{
+			HttpRequest request = HttpRequest.get("https://jodd.org/hello/world");
+			String location = "foo";
+
+			assertEquals("https://jodd.org/hello/foo", locationOf(request, location));
+		}
+	}
+
+
+	private String locationOf(HttpRequest httpRequest, String location) {
+		HttpResponse r = new HttpResponse();
+		r.assignHttpRequest(httpRequest);
+		r.header("location", location);
+		return r.location();
+	}
+
 }

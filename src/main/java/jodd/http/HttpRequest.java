@@ -399,7 +399,7 @@ public class HttpRequest extends HttpBase<HttpRequest> {
 
 		for (final Cookie cookie : cookies) {
 			final Integer maxAge = cookie.getMaxAge();
-			if (maxAge != null && maxAge.intValue() == 0) {
+			if (maxAge != null && maxAge == 0) {
 				continue;
 			}
 
