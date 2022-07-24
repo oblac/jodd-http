@@ -219,9 +219,12 @@ public class HttpSession {
 				}
 
 				final String originalMethod = httpRequest.method();
+				final String originalBody = httpRequest.bodyRaw();
 				httpRequest = new HttpRequest()
 						.method(originalMethod)
-						.set(newPath);
+						.set(newPath)
+						.body(originalBody)
+				;
 				continue;
 			}
 
