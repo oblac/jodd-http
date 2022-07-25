@@ -97,12 +97,10 @@ public class HttpResponse extends HttpBase<HttpResponse> {
 			return null;
 		}
 
-		if (!HttpUtil.isAbsoluteUrl(location)) {
-			try {
-				location = new URL(new URL(httpRequest.url()), location).toString();
-			} catch (MalformedURLException e) {
-				throw new HttpException("Invalid location: " + location, e);
-			}
+		try {
+			location = new URL(new URL(httpRequest.url()), location).toString();
+		} catch (MalformedURLException e) {
+			throw new HttpException("Invalid location: " + location, e);
 		}
 
 		return location;

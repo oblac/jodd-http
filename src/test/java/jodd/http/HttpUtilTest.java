@@ -176,12 +176,12 @@ class HttpUtilTest {
 	}
 
 	@Test
-	void testAbsoluteUrls2() throws MalformedURLException {
+	void testAbsoluteUrls2() {
 		{
 			HttpRequest request = HttpRequest.get("https://jodd.org/hello/world");
-			String location = "https://jodd.org";
+			String location = "https://jodd.org/foo";
 
-			assertEquals("https://jodd.org", locationOf(request, location));
+			assertEquals("https://jodd.org/foo", locationOf(request, location));
 		}
 		{
 			HttpRequest request = HttpRequest.get("https://jodd.org/hello/world");
