@@ -84,11 +84,11 @@ public class HttpResponse extends HttpBase<HttpResponse> {
 	}
 
 	/**
-	 * Parses 'location' header to return the next location or returns {@code null} if location not specified.
-	 * Specification (<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30">rfc2616</a>)
-	 * says that only absolute path must be provided, however, this does not
-	 * happens in the real world. There a <a href="https://tools.ietf.org/html/rfc7231#section-7.1.2">proposal</a>
-	 * that allows server name etc to be omitted.
+	 * Parses the 'location' header and returns an absolute URL for the provided path. Returns {@code null}
+	 * if no location was specified or throws {@code HttpException} if it was impossible to assemble a valid URL.
+	 * <p>
+	 * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.30">RFC 2616</a> still required an absolute
+	 * URL, whereas RFC 9110 introduced the support for relative paths.
 	 */
 	public String location() {
 		String location = header("location");
